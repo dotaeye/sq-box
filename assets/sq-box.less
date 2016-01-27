@@ -1,0 +1,111 @@
+@import "./mixin";
+
+//
+// Box
+// ==============================
+@boxWarpPrefixCls: sq-box;
+
+.@{boxWarpPrefixCls} {
+
+  /**
+   * Fill Box
+   * 1. on its own - fill available vertical space
+   * 2. as a child - flex to fill vertical space
+   */
+
+  &--fill {
+    height: 100%; // 1
+
+    > .@{boxWarpPrefixCls}--fill {
+      #flexbox .flex-grow(); // 2
+    }
+  }
+
+  /**
+   * Container Layout
+   * 1. create a flexible layout, either `column` or `row`
+   * 2. flex-column elements collapse horizontally, so we stretch them out again
+   */
+
+  &--direction-column,
+  &--direction-row {
+    #flexbox .display-flex(); // 1
+    max-height: 100%;
+    width: 100%; // 2
+
+    > .@{boxWarpPrefixCls}--fill {
+      #flexbox .flex-grow(); // 2
+    }
+
+  }
+
+  &--direction-column {
+    #flexbox .flex-direction(column); // 1
+  }
+
+  &--direction-row {
+    #flexbox .flex-direction(row); // 1
+
+    > .@{boxWarpPrefixCls}--fill {
+      height: auto;
+      width: auto;
+    }
+  }
+
+  // Handle alignment of containers' children
+
+  &--align-end {
+    #flexbox .align-items(flex-end);
+  }
+  &--align-center {
+    #flexbox .align-items(center);
+
+    // center children as users may expect
+    .@{boxWarpPrefixCls}--direction-column > & {
+      text-align: center;
+    }
+  }
+  &--align-start {
+    #flexbox .align-items(flex-start);
+  }
+
+  // Handle justification of containers' children
+
+  &--justified {
+    #flexbox .justify-content(space-around);
+  }
+  &--justify-end {
+    #flexbox .justify-content(flex-end);
+  }
+  &--justify-center {
+    #flexbox .justify-content(center);
+  }
+  &--justify-start {
+    #flexbox .justify-content(flex-start);
+  }
+
+  // Scrollable containers
+
+  &--scrollable {
+    max-height: 100%;
+    overflow: scroll;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+
+    // introduce iOS style springy scrolling
+    &:before,
+    &:after {
+      content: "";
+      height: 1px;
+      position: absolute;
+      width: 1px;
+    }
+
+    &:before {
+      bottom: -1px;
+    }
+    &:after {
+      top: -1px;
+    }
+  }
+}
