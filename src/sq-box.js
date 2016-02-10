@@ -19,12 +19,14 @@ const Box = React.createClass({
 		scrollable: PropTypes.oneOfType([
 			PropTypes.bool,
 			PropTypes.object
-		])
+		]),
+		onScroll:PropTypes.func
 	},
 
 	getDefaultProps(){
 		return {
 			 prefixCls: 'sq-box',
+			 onScroll:()=>{}
 		}
 	},
 
@@ -39,6 +41,14 @@ const Box = React.createClass({
 		if (scrollable && scrollable.unmount) {
 			scrollable.unmount(this);
 		}
+	},
+
+	onScroll(event){
+		let { scrollable, onScroll } =this.props;
+		if(!scrollable){
+			return;
+		}
+		onScroll(event);
 	},
 
 	render () {
@@ -69,10 +79,10 @@ const Box = React.createClass({
 			[prefixCls+'--scrollable']: this.props.scrollable
 		});
 
-		var props = blacklist(this.props, 'className', 'direction', 'fill', 'justify', 'scrollable');
+		var props = blacklist(this.props, 'className', 'direction', 'fill', 'justify', 'scrollable','onScroll');
 
 		return (
-			<div className={boxClassName} {...props}>
+			<div className={boxClassName} onScroll={this.onScroll} {...props}>
 				{children}
 			</div>
 		);

@@ -46,11 +46,11 @@
 
 	'use strict';
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var _classnames2 = __webpack_require__(1);
 
@@ -77,6 +77,7 @@
 	var Box = _react2.default.createClass({
 		displayName: 'Box',
 
+
 		propTypes: {
 			prefixCls: _react.PropTypes.string,
 			align: _react.PropTypes.oneOf(['end', 'center', 'start']),
@@ -84,12 +85,14 @@
 			fill: _react.PropTypes.bool,
 			grow: _react.PropTypes.bool,
 			justify: _react.PropTypes.oneOfType([_react.PropTypes.bool, _react.PropTypes.oneOf(['end', 'center', 'start'])]),
-			scrollable: _react.PropTypes.oneOfType([_react.PropTypes.bool, _react.PropTypes.object])
+			scrollable: _react.PropTypes.oneOfType([_react.PropTypes.bool, _react.PropTypes.object]),
+			onScroll: _react.PropTypes.func
 		},
 
 		getDefaultProps: function getDefaultProps() {
 			return {
-				prefixCls: 'sq-box'
+				prefixCls: 'sq-box',
+				onScroll: function onScroll() {}
 			};
 		},
 		componentDidMount: function componentDidMount() {
@@ -106,17 +109,27 @@
 				scrollable.unmount(this);
 			}
 		},
+		onScroll: function onScroll(event) {
+			var _props = this.props;
+			var scrollable = _props.scrollable;
+			var onScroll = _props.onScroll;
+
+			if (!scrollable) {
+				return;
+			}
+			onScroll(event);
+		},
 		render: function render() {
 			var _classnames;
 
-			var _props = this.props;
-			var direction = _props.direction;
-			var children = _props.children;
-			var fill = _props.fill;
-			var scrollable = _props.scrollable;
-			var align = _props.align;
-			var className = _props.className;
-			var prefixCls = _props.prefixCls;
+			var _props2 = this.props;
+			var direction = _props2.direction;
+			var children = _props2.children;
+			var fill = _props2.fill;
+			var scrollable = _props2.scrollable;
+			var align = _props2.align;
+			var className = _props2.className;
+			var prefixCls = _props2.prefixCls;
 
 			if (!direction) {
 				if ((0, _utils.hasChildrenWithVerticalFill)(this.props.children)) {
@@ -130,11 +143,11 @@
 
 			var boxClassName = (0, _classnames3.default)(className, (_classnames = {}, _defineProperty(_classnames, prefixCls, true), _defineProperty(_classnames, prefixCls + '--fill', fill), _defineProperty(_classnames, prefixCls + '--direction-column', direction === 'column'), _defineProperty(_classnames, prefixCls + '--direction-row', direction === 'row'), _defineProperty(_classnames, prefixCls + '--align-center', align === 'center'), _defineProperty(_classnames, prefixCls + '--align-start', align === 'start'), _defineProperty(_classnames, prefixCls + '--align-end', align === 'end'), _defineProperty(_classnames, prefixCls + '--justify-center', this.props.justify === 'center'), _defineProperty(_classnames, prefixCls + '--justify-start', this.props.justify === 'start'), _defineProperty(_classnames, prefixCls + '--justify-end', this.props.justify === 'end'), _defineProperty(_classnames, prefixCls + '--justified', this.props.justify === true), _defineProperty(_classnames, prefixCls + '--scrollable', this.props.scrollable), _classnames));
 
-			var props = (0, _blacklist2.default)(this.props, 'className', 'direction', 'fill', 'justify', 'scrollable');
+			var props = (0, _blacklist2.default)(this.props, 'className', 'direction', 'fill', 'justify', 'scrollable', 'onScroll');
 
 			return _react2.default.createElement(
 				'div',
-				_extends({ className: boxClassName }, props),
+				_extends({ className: boxClassName, onScroll: this.onScroll }, props),
 				children
 			);
 		}
@@ -9454,6 +9467,7 @@
 	 */
 	var EventInterface = {
 	  type: null,
+	  target: null,
 	  // currentTarget is set when dispatching; no use in copying it here
 	  currentTarget: emptyFunction.thatReturnsNull,
 	  eventPhase: null,
@@ -9487,8 +9501,6 @@
 	  this.dispatchConfig = dispatchConfig;
 	  this.dispatchMarker = dispatchMarker;
 	  this.nativeEvent = nativeEvent;
-	  this.target = nativeEventTarget;
-	  this.currentTarget = nativeEventTarget;
 
 	  var Interface = this.constructor.Interface;
 	  for (var propName in Interface) {
@@ -9499,7 +9511,11 @@
 	    if (normalize) {
 	      this[propName] = normalize(nativeEvent);
 	    } else {
-	      this[propName] = nativeEvent[propName];
+	      if (propName === 'target') {
+	        this.target = nativeEventTarget;
+	      } else {
+	        this[propName] = nativeEvent[propName];
+	      }
 	    }
 	  }
 
@@ -13348,7 +13364,10 @@
 	      }
 	    });
 
-	    nativeProps.children = content;
+	    if (content) {
+	      nativeProps.children = content;
+	    }
+
 	    return nativeProps;
 	  }
 
@@ -18821,7 +18840,7 @@
 
 	'use strict';
 
-	module.exports = '0.14.6';
+	module.exports = '0.14.7';
 
 /***/ },
 /* 148 */
