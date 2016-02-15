@@ -1,7 +1,7 @@
 {
   "name": "sq-box",
-  "version": "1.0.2",
-  "description": "an flex box component",
+  "version": "1.0.3",
+  "description": "a flex box component",
   "main": "index.js",
   "dependencies": {
     "blacklist": "^1.1.2",
