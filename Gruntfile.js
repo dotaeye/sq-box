@@ -39,6 +39,14 @@ module.exports = function (grunt) {
                 }
             }
         },
+        babel: {
+            options: babelLoaderQuery,
+            dist: {
+                files: {
+                    'lib/sq-box.js': 'src/sq-box.js'
+                }
+            }
+        },
         webpack: {
         	dev: {
    				resolve: {
@@ -75,30 +83,6 @@ module.exports = function (grunt) {
                     ]
                 }
             },
-        	lib: {
-   				resolve: {
-                    extensions: ['', '.js', '.jsx']
-                },
-                entry: './src/sq-box.js',
-                output: {
-                    path: './lib',
-                    filename: 'sq-box.js'
-                },
-                module:{
-                	 loaders: [{
-                            test: /\.jsx?$/,
-                            exclude: /node_modules/,
-                            loaders: ['babel?' + JSON.stringify(babelLoaderQuery)]
-                        }
-                    ]
-                },
-                externals: {
-                    react: 'React',
-                    'react-dom': 'ReactDOM',
-                    'classnames': 'classnames',
-                    blacklist: 'blacklist'
-                }
-        	},
         	prod: {
 				resolve: {
                     extensions: ['', '.js', '.jsx']
@@ -130,5 +114,5 @@ module.exports = function (grunt) {
         	}
         }
     });
-	grunt.registerTask('default', ['clean', 'less:dev','less:example','less:prod','webpack:lib','webpack:dev','webpack:example','webpack:prod']);
+	grunt.registerTask('default', ['clean', 'less:dev','less:example','less:prod','babel','webpack:dev','webpack:example','webpack:prod']);
 }

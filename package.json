@@ -1,6 +1,6 @@
 {
   "name": "sq-box",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "a flex box component",
   "main": "index.js",
   "dependencies": {
@@ -19,6 +19,7 @@
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "grunt": "^0.4.5",
+    "grunt-babel": "^6.0.0",
     "grunt-concurrent": "^2.1.0",
     "grunt-contrib-clean": "^0.7.0",
     "grunt-contrib-copy": "^0.8.2",
