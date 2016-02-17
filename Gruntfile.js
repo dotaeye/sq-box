@@ -42,9 +42,14 @@ module.exports = function (grunt) {
         babel: {
             options: babelLoaderQuery,
             dist: {
-                files: {
-                    'lib/sq-box.js': 'src/sq-box.js'
-                }
+               files: [
+                    {
+                        expand: true,
+                        cwd: 'src/',
+                        src: ['*.js','**/*.js'],
+                        dest: 'lib/'
+                    }
+                ]
             }
         },
         webpack: {
