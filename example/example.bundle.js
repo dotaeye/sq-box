@@ -19830,6 +19830,8 @@
 		}
 	});
 
+	Box.initScrollable = _utils.initScrollable;
+
 	exports.default = Box;
 	module.exports = exports['default'];
 

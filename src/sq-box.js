@@ -89,5 +89,6 @@ const Box = React.createClass({
 	}
 });
 
+Box.initScrollable=initScrollable;
 
 export default Box;
